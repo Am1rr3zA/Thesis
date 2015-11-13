@@ -1,0 +1,221 @@
+\documentclass[letterpaper,12pt]{report}
+\usepackage{cuproposal}
+\usepackage{mathtools}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{graphicx}
+\usepackage{multicol} % man ezafe kardam
+%\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{subcaption} % man ezafe kardam
+\usepackage{url}
+\usepackage{array}
+\usepackage[letterpaper, left=1.4in, right=1.15in, bottom=1.2in, top=0.8in, nohead]{geometry}
+\usepackage{mathptmx} %  assumes new font selection scheme installed
+\usepackage{amsmath}  %  assumes amsmath package installed
+\usepackage{amssymb}  %  assumes amsmath package installed
+\usepackage{varioref} %  smart page, figure, table, and equation referencing
+\usepackage{fancyvrb} %  extended verbatim environments
+\fvset{fontsize=\footnotesize,xleftmargin=2em}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage[mathcal]{euscript}
+\usepackage{cases}
+\usepackage{xtab}
+\usepackage{float}    % Used to put figures exactly 'here' in text [h]
+\usepackage{dsfont}
+\usepackage{enumitem}
+\usepackage[export]{adjustbox}
+
+\usepackage{lmodern} % changes the font to modern style
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{nicered}{rgb}{0.8,0.1,0.3}
+\definecolor{niceblue}{rgb}{0.1,0.1,0.8}
+\renewcommand{\citeleft}{\textcolor{nicered}{[}}
+\renewcommand{\citeright}{\textcolor{nicered}{]}}
+\hypersetup{
+    colorlinks=true,
+    linkcolor = niceblue,
+    citecolor=nicered,
+}
+\usepackage{arydshln}
+\usepackage{leftidx}
+\usepackage{blkarray}
+\newcommand{\mx}[1]{\mbox{\scriptsize#1}}% Matrix index
+\usepackage{lipsum}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0mm}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+%\usepackage[bottom]{footmisc} % keeps footnotes at the bottom
+%\usepackage{endnotes}
+%\let\footnote=\endnote
+\usepackage{makecell} % for bold horizontal line
+%\usepackage[math]{cellspace}
+
+
+
+%%%%%%%
+%%%%%%% For Algorithm2e and coloring box
+%#################Start for making Colouful Box in Algorithm
+\usepackage{tikz}
+\usetikzlibrary{calc,fit}
+
+% code by Andrew Stacey
+% http://tex.stackexchange.com/a/50054/3954    
+\makeatletter
+\tikzset{%
+  remember picture with id/.style={%
+    remember picture,
+    overlay,
+    save picture id=#1,
+  },
+  save picture id/.code={%
+    \edef\pgf@temp{#1}%
+    \immediate\write\pgfutil@auxout{%
+      \noexpand\savepointas{\pgf@temp}{\pgfpictureid}}%
+  },
+  if picture id/.code args={#1#2#3}{%
+    \@ifundefined{save@pt@#1}{%
+      \pgfkeysalso{#3}%
+    }{
+      \pgfkeysalso{#2}%
+    }
+  }
+}
+
+\def\savepointas#1#2{%
+  \expandafter\gdef\csname save@pt@#1\endcsname{#2}%
+}
+
+\def\tmk@labeldef#1,#2\@nil{%
+  \def\tmk@label{#1}%
+  \def\tmk@def{#2}%
+}
+
+\tikzdeclarecoordinatesystem{pic}{%
+  \pgfutil@in@,{#1}%
+  \ifpgfutil@in@%
+    \tmk@labeldef#1\@nil
+  \else
+    \tmk@labeldef#1,(0pt,0pt)\@nil
+  \fi
+  \@ifundefined{save@pt@\tmk@label}{%
+    \tikz@scan@one@point\pgfutil@firstofone\tmk@def
+  }{%
+  \pgfsys@getposition{\csname save@pt@\tmk@label\endcsname}\save@orig@pic%
+  \pgfsys@getposition{\pgfpictureid}\save@this@pic%
+  \pgf@process{\pgfpointorigin\save@this@pic}%
+  \pgf@xa=\pgf@x
+  \pgf@ya=\pgf@y
+  \pgf@process{\pgfpointorigin\save@orig@pic}%
+  \advance\pgf@x by -\pgf@xa
+  \advance\pgf@y by -\pgf@ya
+  }%
+}
+\newcommand\tikzmark[2][]{%
+\tikz[remember picture with id=#2] #1;}
+\makeatother
+% end of code by Andrew Stacey
+
+\newcommand\MyBox[4][-1ex]{%
+  \tikz[remember picture,overlay,pin distance=0cm]
+  {\draw[draw=#4,line width=1pt,fill=#4!20,rectangle,rounded corners]
+( $ (pic cs:#2) + (-1ex,2ex) $ ) rectangle ( $ (pic cs:#3) + (1ex,#1) $ );
+}
+}
+%#################End for making Colouful Box in Algorithm
+
+%==========================================
+% Algorithm2e
+\usepackage[algo2e,ruled,vlined,linesnumbered] {algorithm2e}
+\LinesNumbered
+\DontPrintSemicolon
+\SetAlFnt{\scriptsize}
+\SetAlCapFnt{\scriptsize}
+\SetAlCapNameFnt{\scriptsize}
+\SetAlTitleFnt{\scriptsize}
+\SetAlgoNlRelativeSize{-1}  % algo lines numbers 1 level smaller than algo text
+                            % norelsize: no change to linenumber size (manual)
+\usepackage{xcolor}
+% \definecolor{lightgray}{gray}{0.9}
+\newcommand\mycommfont[1]{\tiny\sffamily\bfseries\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%
+%%%%%%%
+
+
+
+\begin{document}
+
+
+\cutitle{An Anomaly Detection System based on Ensemble of Detectors with Effective Pruning Techniques}
+
+\cudept{Electrical and Computer Engineering}
+\cudegree{Master of Applied Science}
+\cudegreeshort{M.A.Sc.}
+\cufname{Amirreza}
+\culname{Soudi}
+\cumonth{December}
+\cuyear{2015}
+
+\cuchair{Dr. VVVVVVVVV}
+\cuextexaminer{Dr. XXXXXX , Examiner, External}
+\cuexaminerA{Dr. YYYYYYY, Examiner}
+\cusupervisor{Dr. ZZZZZZZZ, Supervisor}
+\cucosupervisor{Dr. WWWWWWW, Supervisor}
+
+\cuabstract{\input{abstract}}
+\cudedication{\input{dedicate}}
+\cuthanks{\input{thanks}}
+
+\cumaketitlepage
+\cumakesignaturepage
+\dsp
+\cumakeabstract
+\cumakededication
+\dsp
+\cumakethanks
+\cutocdeep{2}          % how deep you want to go in the toc: 0: reset to 1
+%% and align section with chapter, check to see.
+% 1: chap+sec (section indented),
+% 2: chap+sec+subsec ...
+% the default is now 2.  previously it was 0.
+\cumaketableofcontents % Guess,
+%\addcontentsline{toc}{chapter}{List of Figures}
+\cumakelistoffigures   % id.
+%\addcontentsline{toc}{chapter}{List of Tables}
+\cumakelistoftables    % id.
+%\addcontentsline{toc}{chapter}{}
+%\culistofsymbols
+%{\input{nomenclature.tex}}
+
+%\end{comment}
+
+%----------------------------------------------------------------------------
+\custartbody    % this initialize double-spacing, page-numbering ...
+%\bodybaselineskip
+%Nomenclature
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+%\appendix
+%\include{appendix1}
+%\codebaselineskip
+%\cumakebibliography{IEEEabrv,MyRef}
+%\theendnotes
+
+\bibliographystyle{ieeetr}%IEEEtrans
+\bibliography{Soudi2015}
+
+
+\end{document}

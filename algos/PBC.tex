@@ -1,0 +1,110 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IBC1: Iterative Boolean combination of detectors (one iteration)
+
+\begin{algorithm2e}[t]
+
+% \begin{scriptsize}
+% \SetFillComment
+% \SetSideCommentRight
+% To flush right with putting end of line use: tcp*[r]{ ... } w/o '\;'
+
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\SetKw{Return}{return}
+\SetKw{Convert}{convert}
+\SetKw{Compute}{compute}
+\SetKw{Store}{store}
+\SetKw{Set}{set}
+\SetKw{Let}{let}
+\SetKw{Allocate}{allocate}
+\SetKw{Apply}{apply}
+\SetKw{Choose}{choose}
+\SetKw{Reduce}{reduce}
+\SetKw{Select}{select}
+\SetKw{Push}{push}
+%\SetKwProg{myproc}{Procedure}{}{}
+
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Input{$K$ soft detectors ($D_1,D_2,\ldots,D_K$) and a validation
+set $\mathcal{V}$ of size $|\mathcal{V}|$}
+\Output{ROCCH of combined detectors.\\
+- Each vertex is the result of exact $2$ combination of crisp detectors.\\
+- Each combination selects the best decision thresholds from different \\
+~~detectors ($D_i,t_j$) and Boolean function (stored in the set $\mathcal{S}$)}
+
+$n_k \leftarrow$ number of decision thresholds of $D_k$ using $\mathcal{V}$
+  \tcp*[r]{num. of vertices on ROC(D$_k$).}
+  \Let $n = \sum_{k=1}^{K} n_k$\;
+$BooleanFunctions\leftarrow \{ a\wedge b,\neg a\wedge b,a\wedge\neg b,
+\neg(a\wedge b), a\vee b,\neg a\vee b,a\vee\ \neg b,\neg(a\vee b),a\oplus b,
+a\equiv b\}$
+
+\Allocate $\boldsymbol C$ an array of size: $[|\mathcal{V}|, n]$
+  \tcp*[r]{storage of all crisp detectors' decisons.}
+\Convert soft detectors to crisp detectors\;
+\For{$i\leftarrow 1$ \KwTo $K$}{
+	\For{$j\leftarrow 1$ \KwTo $n_i$}{
+		$\boldsymbol{R}  \leftarrow  (D_{i}, t_{j})$
+		\tcp*[r]{responses of $\mathbf{D_{i}}$ at decision threshold $\mathbf{t_j}$ using $\mathcal{V}$.}
+		\Push $\boldsymbol{R}$ onto $\boldsymbol C$\;
+	}
+}
+
+\nonl\MyBox{startb}{endb}{green}
+
+\nonl \noindent\rule{8.3cm}{0.4pt}\;
+
+\tikzmark{startb}\Choose Pruning Technique \{MinMax-Kappa, ROCCH-Kappa\}\;
+\Reduce $n$ to $U$
+\tcp*[r]{  $U \ll n$: is a user defined max number of detectors }
+
+\Return $\boldsymbol{\mathcal{C}}_{\mbox{selected}}  \leftarrow  \boldsymbol C$ - Pruned Detectors \;
+\tcp*[r]{Subset of size $U$ detectors selected from all original detectors and returned for combination\tikzmark{endb}}
+
+\nonl \noindent\rule{8.3cm}{0.4pt}\;
+
+\Allocate  $\boldsymbol F$ an array of size: $[2, U^{2} \times size(BooleanFunctions)]$
+  \tcp*[r]{temporary storage of combination results.}
+\ForEach{$bf \in BooleanFunctions$}{
+\For{$i\leftarrow 1$ \KwTo $U$}{  % emphasis more with comment
+  % \For{$i\leftarrow 1$ \KwTo $K \times n_n$}{
+    $\boldsymbol{R_{1}}  \leftarrow  \boldsymbol{\mathcal{C}}_{\mbox{selected}}[i]$
+    \tcp*[r]{Retrieve Decision Vector}
+    \For{$j\leftarrow 1$ \KwTo $U$}{
+      $\boldsymbol{R_{2}}  \leftarrow   \boldsymbol{\mathcal{C}}_{\mbox{selected}}[j]$\;
+      $\boldsymbol{R_c} \leftarrow bf(\boldsymbol{R_1},\boldsymbol{R_2})$
+        \tcp*[r]{combine responses using current Boolean func.}
+      \Compute $(tpr,fpr)$ of $\boldsymbol{R_c}$ using $\mathcal{V}$
+        \tcp*[r]{map combination to ROC plane}
+        % \tcp*[r]{map combined responses to ROC space (1 pt)}\;
+      \Push $(tpr,fpr)$ onto $\boldsymbol F$\;
+    }
+  }
+%\Compute {ROCCH$_{2}$ of all ROC points in $\boldsymbol F$}\;
+%$n_{ev} \leftarrow$ number of emerging vertices   \;  % \tcp*[r]{no.~vertices of $ROCCH_{2}$ superior to $ROCCH_{1}$}\;
+%$\mathcal{S}_2 \leftarrow \{(D_1,t_i),(D_2,t_j),bf\}$~
+  % \tcp*[r]{set of selected decision thresholds from each detector and Boolean functions for emerging vertices.}
+%  \tcp*[r]{set of selected decision thresholds from each }
+%  \tcp*[r]{detector and Boolean func. for emerging vertices.}
+}
+
+\Compute{ROCCH of all ROC points in $\boldsymbol F$}\;
+$n_{ev} \leftarrow$ number of emerging vertices  \;
+$\mathcal{S} \leftarrow \{(D_1,t_i), (D_2,t_j), \ldots,(D_k,t_k),bf\}$~
+  \tcp*[r]{set of selected decision thresholds from each detector and Boolean functions for emerging vertices.}
+\Store $\mathcal{S}$;
+\Return {ROCCH}
+
+\caption{PBC$(D_1,D_2,\ldots,D_K, \mathcal{V})$: Pruned Boolean Combination } % in ROC space
+\label{PBC}
+
+% \end{scriptsize}
+
+\end{algorithm2e}
+
+

@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IBC1: Iterative Boolean combination of detectors (one iteration)
+
+\begin{algorithm2e}[t]
+
+% \begin{scriptsize}
+% \SetFillComment
+% \SetSideCommentRight
+% To flush right with putting end of line use: tcp*[r]{ ... } w/o '\;'
+
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\SetKw{Return}{return}
+\SetKw{Compute}{compute}
+\SetKw{Store}{store}
+\SetKw{Set}{set}
+\SetKw{Let}{let}
+\SetKw{Allocate}{allocate}
+\SetKw{Select}{select}
+\SetKw{Push}{push}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Input{$K$ soft detectors ($D_1,D_2,\ldots,D_K$) and a validation
+set $\mathcal{V}$ of size $|\mathcal{V}|$}
+\Output{ROCCH of combined detectors.\\
+- Each vertex is the result of $2$ to $K$ combination of crisp detectors.\\
+- Each combination selects the best decision thresholds from different \\
+~~detectors ($D_i,t_j$) and Boolean function (stored in the set $\mathcal{S}$)}
+
+$n_k \leftarrow$ number of decision thresholds of $D_k$ using $\mathcal{V}$
+  \tcp*[r]{num. of vertices on ROC(D$_k$).}
+$BooleanFunctions\leftarrow \{ a\wedge b,\neg a\wedge b,a\wedge\neg b,
+\neg(a\wedge b), a\vee b,\neg a\vee b,a\vee\ \neg b,\neg(a\vee b),a\oplus b,
+a\equiv b\}$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Compute ROCCH$_{1}$ of the first two detectors ($D_1$ and $D_2$)\;
+\Allocate $\boldsymbol F$ an array of size: $[2,n_1\times n_2]$
+  \tcp*[r]{temporary storage of combination results.}
+\ForEach{$bf \in BooleanFunctions$}{
+  \For{$i\leftarrow 1$ \KwTo $n_1$}{
+    $\boldsymbol{R_{1}}  \leftarrow  (D_{1}, t_{i})$
+    \tcp*[r]{responses of $\mathbf{D_1}$ at decision threshold $\mathbf{t_i}$ using $\mathcal{V}$.}
+    \For{$j\leftarrow 1$ \KwTo $n_2$}{
+      $R_{2}  \leftarrow  (D_2, t_{j})$
+      \tcp*[r]{responses of $\mathbf{D_2}$ at decision threshold $\mathbf{t_j}$ using $\mathcal{V}$.}
+      $\boldsymbol{R_c} \leftarrow bf(\boldsymbol{R_1},\boldsymbol{R_2})$
+        \tcp*[r]{combine responses using current Boolean func.}
+      \Compute $(tpr,fpr)$ of $\boldsymbol{R_c}$ using $\mathcal{V}$
+        \tcp*[r]{map combination to ROC plane}
+        % \tcp*[r]{map combined responses to ROC space (1 pt)}\;
+      \Push $(tpr,fpr)$ onto $\boldsymbol F$\;
+    }
+  }
+\Compute {ROCCH$_{2}$ of all ROC points in $\boldsymbol F$}\;
+$n_{ev} \leftarrow$ number of emerging vertices   \;  % \tcp*[r]{no.~vertices of $ROCCH_{2}$ superior to $ROCCH_{1}$}\;
+$\mathcal{S}_2 \leftarrow \{(D_1,t_i),(D_2,t_j),bf\}$~
+   \tcp*[r]{set of selected decision thresholds from each detector and Boolean functions for emerging vertices.}
+  %\tcp*[r]{set of selected decision thresholds from each }
+ % \tcp*[r]{detector and Boolean func. for emerging vertices.}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \BlankLine
+% \tcp{combine responses of each successive detector with the previous combinations}\;
+\For {$k\leftarrow 3$ \KwTo $K$}{
+  \Allocate $\boldsymbol F$ of size: $[2,n_k\times n_{ev}]$\;
+  \ForEach{$bf \in BooleanFunctions$}{
+    \For{$i\leftarrow 1$ \KwTo $n_{ev}$}{
+      $\boldsymbol{R_i} \leftarrow S_{k-1}(i)$
+        \tcp*[r]{responses from previous combinations.}
+      \For{$j\leftarrow 1$ \KwTo $n_k$}{
+        $\boldsymbol{R_k} \leftarrow (D_k, t_{j})$\;
+        $\boldsymbol{R_c} \leftarrow bf(\boldsymbol{R_i},\boldsymbol{R_k})$\;
+        \Compute $(tpr,fpr)$ of $\boldsymbol{R_c}$ using $\mathcal{V}$\;
+        \Push $(tpr,fpr)$ onto $\boldsymbol F$\;
+      }
+    }
+  }
+\Compute{ROCCH$_{k}$ of all ROC points in $\boldsymbol F$}\;
+$n_{ev} \leftarrow$ number of emerging vertices  \; % \tcp*[r]{no.~vertices of $ROCCH_{k}$ superior to $ROCCH_{k-1}$}\;
+$\mathcal{S}_k \leftarrow \{\mathcal{S}_{k-1}(i),(D_k,t_j),bf\}$
+
+  \tcp*[l]{$\mathcal{S}_k$ is the set of the selected subsets from the previous combinations; the decision thresholds from the newly-combined detector; and the Boolean functions that yields to the emerging vertices on the ROCCH.}}
+\Store $\mathcal{S}_k: 2\leq k \leq K$\;
+\Return {ROCCH$_K$}
+
+\caption{IBC$(D_1,D_2,\ldots,D_K, \mathcal{V})$: Iterative Boolean Combination } % in ROC space
+\label{IBC1}
+
+% \end{scriptsize}
+
+\end{algorithm2e}
+
+

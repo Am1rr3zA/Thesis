@@ -1,0 +1,14 @@
+\chapter{Conclusion} \label{chapter5}
+In this paper, we proposed PBC, an efficient approach for selecting and combining anomaly detectors, which relies on two novel pruning techniques.
+During the design phase, the PBC is able to select a small subset of diverse and accurate detectors for Boolean combinations, while discarding the remaining ones.
+The pruning techniques we developed at the core of PBC rely on Kappa measure (MinMax-Kappa) and on the ROC convex hull (ROCCH-Kappa) to aggressively prune redundant and trivial detectors.
+
+The results on ADFA-LD system call datasets show that PBC with both pruning techniques are capable of maintaining similar overall accuracy as measured by the ROC curves to that of IBC and BBC2.
+Therefore, our proposed PBC-based ADS is able to prune and combine large number of detectors without suffering from the exponential explosion in number of combinations provided with the pairwise brute-force Boolean combination techniques.
+This has been shown analytically (in the time complexity analysis) and confirmed in the experimental results.
+
+During the operational phase, PBC with both pruning techniques always provides two crisp detectors for each combination, while IBC requires an average of $11$ detectors to achieve the same operating point (in terms of true and false positive rates).
+The proposed PBC approach is also general and can be applied to combine any soft or crisp detectors or two-class classifiers in a wide range of applications that requires combination of decisions.
+
+Future work involves conducting more experiments using different real-world datasets.
+Another interesting direction is to investigate the potential improvement by re-combining the resulting combinations with the selected detectors, and explore other measures of diversity. We also intend to implement the new techniques in TotalADS \cite{Murtaza2014}, a tool we have developped to support multiple anomaly detectors. Finally, we need to investigate how we can reduce the size of traces to enable better scalability. Example of trace abstraction techniques are presented in \cite{Hamou-Lhadj2005,Murtaza2013}.

@@ -1,0 +1,510 @@
+% CUTHESIS DOCUMENT STYLE -- Released 22 Febuary 1992.
+%    for LaTeX version 3.0
+% by Jean-Francois Huard, Concordia University, Montreal, Canada.
+%
+\typeout{}
+\typeout{Document Style `cuthesis'.  <22 Feb 1992>}
+\typeout{v1.0: Concordia University thesis format}
+\typeout{                  by Jean-Francois Huard}
+
+%
+% This style file must be used jointly with the report doc. style.
+% as follow:  \documentstyle[11pt,cuthesis]{report}
+%
+% some macros had been added to fix the numbering bug when tables and figures
+% appears in the same section.  These correction were written by Pierre
+% Lavoie at Ecole Polytechnique in Febuary 1990.
+%
+
+\def\blsnormal{2} % baselinestretch normal PL.
+\def\blstables{1.2} % baselinestretch tables du contenu PL.
+
+\def\l@section{\@dottedtocline{1}{0em}{2em}}
+\def\c@tocdepth{1}
+
+%%%           Macros ajoutees pour numerotation correcte des figures et
+%%%           des tables avec numero de chapitre en prefixe.
+%%%
+%%%           C'est pas tres joli, mais ca marche...
+%%%	      (Not very nice, but it works...)
+%%%
+%%%                                  Pierre Lavoie,
+%%%                                  21 fevrier 1990
+
+\long\def\@caption#1[#2]#3{\par\addcontentsline{\csname
+    ext@#1\endcsname}{#1}{\protect\numberline{\thechapter.\arabic{#1}}{\ignorespaces #2}}\begingroup
+    \@parboxrestore
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+  \endgroup}
+
+\def\caption{\myrefstepcounter\@captype \@dblarg{\@caption\@captype}}
+
+%%%\def\myrefstepcounter#1{\stepcounter{#1}\typeout{-> #1 \thechapter.\arabic{#1}}\let\@tempa\protect
+\def\myrefstepcounter#1{\stepcounter{#1}\let\@tempa\protect
+\def\protect{\noexpand\protect\noexpand}%
+\edef\@currentlabel{\csname p@#1\endcsname\thechapter.\arabic{#1}}%
+\let\protect\@tempa}
+
+\def\annexe
+
+\renewcommand\appendix{\par
+ \setcounter{annexe}{0}
+ \let\thechapter=\theannexe
+ \renewcommand\theequation{\theannexe.\arabic{equation}}
+ \renewcommand\thesection{\theannexe.\arabic{section}}
+ \renewcommand\thesubsection {\thesection.\arabic{subsection}}
+}
+
+%%%           Fin des modifications.  PL.
+
+\makeatletter
+\oddsidemargin 1.3cm \evensidemargin 1.3cm
+\marginparwidth 40pt \marginparsep 10pt
+\topmargin -18pt \headsep 37pt	% 1in = 72.27pt = 2.54cm, 1cm = 28.45pt
+\textheight 21.5cm \textwidth 15.0cm
+%\baselineskip 0.4cm
+\parindent 1.65\parindent
+\brokenpenalty=10000
+\renewcommand{\baselinestretch}{1.5}
+
+\newcounter{temporaire}
+
+% I cancelled this part because there was an error with the figure uploading
+
+%\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+%   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+%      \@parmoderr\@floatpenalty\z@
+%    \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+%       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+%       \@tfor \@tempa :=#2\do
+%                        {\if\@tempa h\advance\@tempcnta \@ne\fi
+%                         \if\@tempa t\advance\@tempcnta \tw@\fi
+%                         \if\@tempa b\advance\@tempcnta 4\relax\fi
+%                         \if\@tempa p\advance\@tempcnta 8\relax\fi
+%         }\global\count\@currbox\@tempcnta}\@fltovf\fi
+%    \global\setbox\@currbox\vbox\bgroup
+%    \def\baselinestretch{1}\@normalsize
+%    \boxmaxdepth\z@
+%    \hsize\columnwidth \@parboxrestore}
+    
+    
+    
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+%----------------------------------------------------------------------------
+%
+% Here starts the CU requirements
+%
+
+\def\cudept#1{\gdef\@cudept{#1}}		% Department name
+\def\cutitle#1{\gdef\@cutitle{#1}}		% Thesis title
+%\def\cusubtitle#1{\gdef\@cusubtitle{#1}}	% Thesis subtitle
+\def\cudegree#1{\gdef\@cudegree{#1}}		% Degree
+\def\cudegreeshort#1{\gdef\@cudegreeshort{#1}}	% Degree abbreviation
+
+\def\culname#1{\gdef\@culname{#1}}		% Last name of author
+\def\cufname#1{\gdef\@cufname{#1}}		% First name of author
+
+\def\cusupervisor#1{\gdef\@cusupervisor{#1}}	% Supervisor name
+\def\cucosupervisor#1{\gdef\@cucosupervisor{#1}}% Co-supervisor name
+\def\cuexaminerA#1{\gdef\@cuexaminerA{#1}}	% Examiner A name
+\def\cuexaminerB#1{\gdef\@cuexaminerB{#1}}	% Examiner B name
+\def\cuexaminerC#1{\gdef\@cuexaminerC{#1}}	% Examiner C name
+\def\cuextexaminer#1{\gdef\@cuextexaminer{#1}}	% External examiner name
+\def\cuchair#1{\gdef\@cuchair{#1}}		% Chairperson name
+
+\def\cumonth#1{\gdef\@cumonth{#1}}		% Submitted month
+\def\cuyear#1{\gdef\@cuyear{#1}}		% Submitted year
+
+\def\cuthanks#1{\gdef\@cuthanks{#1}}		% Thanks
+\def\cuabstract#1{\gdef\@cuabstract{#1}}	% Abstract
+\def\cusommaire#1{\gdef\@cusommaire{#1}}		% Sommaire
+\def\cudedication#1{\gdef\@cudedication{#1}}	% Dedication
+\def\cuepigram#1{\gdef\@cuepigram{#1}}		% Epigram
+
+%
+% At CU the introduction and conclusion are part of the thesis body, intro
+% will be the chapter 1 and conclusion the last chapter. (JFH)
+%
+% \def\introduction#1{\gdef\@introduction{#1}}	
+% \def\conclusion#1{\gdef\@conclusion{#1}}
+
+\def\culisteofsymbolesA#1{\gdef\@culisteofsymbolesA{#1}}% List of symbols
+\def\culisteofsymbolesB#1{\gdef\@culisteofsymbolesB{#1}}% List of symbols
+%----------------------------------------------------------------------------
+
+\def\copyrightyear#1{\gdef\@copyrightyear{#1}} % \author, \title in report
+\def\@title{}\def\@author{}
+
+\let\@cudept\relax
+\let\@cutitle\relax
+%%%%  \let\@cusubtitle\relax
+%%%% \def\@cusubtitle{}
+\let\@cudegree\relax
+\let\@cudegreeshort\relax
+\let\@culname\relax
+\let\@cufname\relax
+\let\@cusupervisor\relax
+\let\@cucosupervisor\relax
+\let\@cuexaminerA\relax
+\let\@cuexaminerB\relax
+\let\@cuexaminerC\relax
+\let\@cuextexaminer\relax
+\let\@cuchair\relax
+\let\@cumonth\relax
+\let\@cuyear\relax
+\let\@cuthanks\relax
+\let\@cuabstract\relax
+\let\@cusommaire\relax
+\let\@cudedication\relax
+\let\@cuepigram\relax
+%\let\@introduction\relax
+%\let\@conclusion\relax
+\let\@culisteofsymbolesA\relax
+\let\@culisteofsymbolesB\relax
+
+
+\def\@submitmonth{\ifcase\month\or
+ January\or Febuary\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi
+  \space \number\the\year}
+\ifnum\month=12
+    \@tempcnta=\year \advance\@tempcnta by 1
+    \edef\@copyrightyear{\number\the\@tempcnta}
+\else
+    \def\@copyrightyear{\number\the\year}
+\fi
+\newif\ifcopyright \newif\iffigurespage \newif\iftablespage
+\copyrighttrue \figurespagetrue \tablespagetrue
+
+%----------------------------------------------------------------------------
+% this is the label for the thesis binder.
+%
+\def\cualabel#1{\gdef\@cualabel{#1}}
+
+\def\@cualabel{
+
+	\begin{minipage}[t]{10.1cm}
+	\begin{center}
+	--------------- \\
+         {\uppercase\expandafter{{\bf \@cutitle}}} \\
+         \vspace{0.4cm}
+	 {\uppercase \expandafter{\bf \@cudegree} \uppercase\expandafter{\bf (\@cudegreeshort)}} \\
+         DEPARTMENT OF {\uppercase\expandafter{\@cudept}} \\
+        {\uppercase \expandafter{\@cufname} \uppercase\expandafter{\@culname}} \\
+	--------------- \\
+	\end{center}
+	\end{minipage}
+}
+
+\def\cumakethesislabel{%
+\@cualabel \@cualabel \@cualabel \newpage \thispagestyle{empty}
+\@cualabel \@cualabel \@cualabel \newpage \thispagestyle{empty}
+
+}
+
+%----------------------------------------------------------------------------
+% this is the title page it must not be numbered
+%
+\def\cumaketitlepage{%
+	\thispagestyle{empty}
+	\setcounter{chapter}{0}
+	\pagenumbering{roman}
+        \setcounter{page}{1}
+	\normalsize
+	\mbox{}
+%	\vspace{3cm}
+	\begin{center}
+		\parbox[t]{15cm}{\center{\uppercase\expandafter{{\Large\bf \@cutitle}}}}\\
+%%%%		\parbox[t]{15cm}{\center{\uppercase\expandafter{{\large\bf \@cusubtitle}}}}\\
+		\vspace{2cm}
+		{\expandafter{{\large \@cufname}} \expandafter{{\large \@culname}}} \\
+		\vspace{2cm}
+		{A Thesis}\\
+		{in}\\
+		{The Department}\\
+		{of}\\
+                {\expandafter{\@cudept}}\\
+		\vspace{2cm}
+                {Presented in Partial Fulfillment of the Requirements}\\
+                {for the Degree of \expandafter{\@cudegree} at}\\
+                {Concordia University}\\
+                {Montr\'{e}al, Qu\'{e}bec, Canada}\\
+		\vspace{2cm}
+                {{\expandafter{\@cumonth} \expandafter{\@cuyear}}}\\
+
+        \vspace{0.6cm} {\copyright} {\expandafter{\@cufname} \expandafter{\@culname}, \expandafter{\@cuyear}}
+	\end{center}
+        \newpage \thispagestyle{empty}
+}
+%----------------------------------------------------------------------------
+% this is the signature page, also not numbered
+\def\cumakesignaturepage{%
+	\thispagestyle{empty}
+	\begin{center}
+		{CONCORDIA UNIVERSITY}\\
+		{School of Graduate Studies}\\
+	\end{center}
+	\bigskip
+	\bigskip
+	{This is to certify that the thesis proposal prepared} \\[1em]
+	 \parbox{2.54cm}{By:} {\expandafter{\bf \@cufname} \expandafter{\bf \@culname}} \\[1em]
+	 \parbox{2.54cm}{Entitled:} \parbox[t]{12.4cm}{\expandafter{\bf \@cutitle}} \\[1em]
+%	 \if\@cusubtitle\relax	 \else
+%		\parbox{2.54cm}{\hspace{1cm}}
+%			{\uppercase\expandafter{\bf\@cusubtitle}}\\[1em]
+%		 \fi
+	 {\expandafter and submitted in partial fulfilment of the requirements for the degree of} \\[1em]
+	 \parbox{1cm}{\hspace{0.2cm}} {\expandafter{\bf \@cudegree}} \\[1em]
+	 {complies with the regulations of this University and meets the accepted
+	 standards with respect to originality and quality.}\\[1em]
+	 {Signed by the final examining committee:}
+	 \begin{flushright}
+		 \makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm] {\expandafter\@cuchair\hfill}}\\
+		 \if\@cuextexaminer\relax \else
+		 	{\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm] {\expandafter\@cuextexaminer\hfill}}\\}
+		 \fi
+		\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm]{\expandafter\@cuexaminerA\hfill}}\\
+%		\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm]{\expandafter\@cuexaminerB\hfill}}\\
+%		\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm]{\expandafter\@cuexaminerC\hfill}}\\
+		\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm]{\expandafter\@cusupervisor\hfill}}\\
+		\if\@cucosupervisor\relax \else	
+			{\makebox[14cm]{\hspace{1mm}\hrulefill\ \makebox[6.5cm] {\expandafter\@cucosupervisor\hfill}}\\}
+		\fi
+		\vspace{.4cm}
+		{Approved by \hrulefill}\\[-2mm]
+                   {Dr. XXXXXXX, Chair} \makebox[5cm]{} \\
+		   {Department of Electrical and Computer Engineering} \makebox[2.5cm]{} \\[1em]
+		%\makebox[3cm]{\hrulefill\ 2001}
+		{\hrulefill} \\[-2mm]
+		{Dr. DDDDDDDDDD} \makebox[6cm]{} \\
+		{Dean, Faculty of Electrical and Computer Engineering} \makebox[3.5cm]{} \\
+	\end{flushright}
+	\newpage
+}
+%----------------------------------------------------------------------------
+% this is the abstract, is must not be numbered
+%
+\def\cumakeabstract{%
+ \setcounter{page}{3}
+        \begin{center}
+		{\large {\bf ABSTRACT}}\\
+		\vspace{1.3cm}
+%		{\expandafter\@cutitle}\\
+		\vspace{0.7cm}
+
+	\end{center}
+	%\codebaselineskip
+%		{\@cufname} {\@culname, }
+%\end{center}
+%		{\@cudegreeshort} Student\\
+%		{Concordia Unviersity,} {\@cuyear} \\
+	
+%	\bodybaselineskip
+%        \mbox{}\par
+%	\addcontentsline{toc}{section}{\hspace{\l@secback}ABSTRACT}	% don't numbered
+        \expandafter{\@cuabstract}
+	\newpage
+}
+%----------------------------------------------------------------------------
+% this is the sommaire, is must not be numbered
+%
+\def\cumakesommaire{%
+        \begin{center}
+		{\large {\bf SOMMAIRE}}\\
+		\vspace{1.5cm}
+		{\expandafter\@cutitle}\\
+		\vspace{1.5cm}
+		{\expandafter\@cufname} {\expandafter\@culname}\\
+		\vspace{1cm}
+	\end{center}
+        \mbox{}\par
+%	\addcontentsline{toc}{section}{\hspace{\l@secback}SOMMAIRE}	% don't numbered
+        \expandafter{\@cusommaire}
+	\newpage
+}
+
+%----------------------------------------------------------------------------
+% this is the acknowledgements, they must not be numbered
+%
+\def\cumakethanks{%
+        \begin{center}
+		{\large {\bf ACKNOWLEDGEMENTS}}
+	\end{center}
+         \mbox{}\par
+	%\addcontentsline{toc}{section}{\hspace{\l@secback}ACKNOWLEDGEMENTS}	% don't numbered
+	\vspace{1.3cm}
+        \expandafter{\@cuthanks}
+	\newpage
+}
+%----------------------------------------------------------------------------
+% this is the dedication, this paage must not be numbered
+%
+\def\cumakededication{%
+        \mbox{}\par
+        \expandafter{\@cudedication}
+	\newpage
+}
+%----------------------------------------------------------------------------
+% this is the epigram, this paage must not be numbered
+%
+\def\cumakeepigram{%
+        \mbox{}\par
+        \expandafter{\@cuepigram}
+	\newpage
+}
+
+%----------------------------------------------------------------------------
+% this cutableofcontent is to change the name of the TOC to TOC and not CONTENTS
+%
+%\def\cutableofcontents{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+% \fi\chapter*{Table of Contents\@mkboth{TABLE OF CONTENTS}{TABLE OF CONTENTS}}
+% \@starttoc{toc}\if@restonecol\twocolumn\fi}
+
+%\def\l@section{\@dottedtocline{1}{0em}{2em}}
+%\def\c@tocdepth{2}	% how deep do you want to go in the toc?
+
+\def\cutableofcontents{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+\fi\centerline{{\large {\bf TABLE OF CONTENTS}}}\mbox{}\par
+\@starttoc{toc}\if@restonecol\twocolumn\fi}
+\def\l@part#1#2{\addpenalty{-\@highpenalty}
+ \addvspace{2.25em plus 1pt} \begingroup
+ \@tempdima 3em \parindent \z@ \rightskip \@pnumwidth \parfillskip
+-\@pnumwidth
+ {\large \bf \leavevmode #1\hfil \hbox to\@pnumwidth{\hss #2}}\par
+ \nobreak \global\@nobreaktrue \everypar{\global\@nobreakfalse\everypar{}}
+\endgroup}
+\def\l@chapter#1#2{\addpenalty{-\@highpenalty}
+ \vskip 1.0em plus 1pt \@tempdima 1.5em \begingroup
+ \parindent \z@ \rightskip \@pnumwidth
+ \parfillskip -\@pnumwidth
+ \bf \leavevmode \advance\leftskip\@tempdima \hskip -\leftskip #1\nobreak\hfil
+\nobreak\hbox to\@pnumwidth{\hss #2}\par
+ \penalty\@highpenalty \endgroup}
+\def\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
+\def\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
+\def\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
+\def\l@paragraph{\@dottedtocline{4}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
+
+\def\cutocdeep#1{%	 how deep you want to go in the toc. default: 2
+	\ifnum#1>0 \def\c@tocdepth{#1}\def\l@secback{-1.5em}
+        \else \def\c@tocdepth{1}
+		\def\l@section{\@dottedtocline{1}{0em}{2em}}
+		\def\l@secback{0pt} \fi
+}
+
+\def\cumaketableofcontents{%
+	\pagestyle{plain}
+%        \addcontentsline{toc}{section}{\hspace{\l@secback}TABLE OF CONTENTS} % the toc doesn't
+							  % appear in the toc!
+	\cutableofcontents
+	\pagebreak
+}
+%----------------------------------------------------------------------------
+%
+\def\culistoffigures{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn\fi
+	\clearpage
+        \begin{center}
+		{\large {\bf LIST OF FIGURES}}
+	\end{center}
+         \mbox{}\par
+%\chapter*{List of Figures\@mkboth{LIST OF FIGURES}{LIST OF FIGURES}}
+        \@starttoc{lof}
+	\if@restonecol\twocolumn\fi
+}
+
+\def\cumakelistoffigures{%
+        \addcontentsline{toc}{section}{\hspace{\l@secback}LIST OF FIGURES}
+	\culistoffigures
+	\pagebreak
+}
+%----------------------------------------------------------------------------
+%
+\def\culistoftables{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn\fi
+	\clearpage
+        \begin{center}
+		{\large {\bf LIST OF TABLES}}
+	\end{center}
+        \mbox{}\par
+%\chapter*{List of Tables\@mkboth{LIST OF TABLES}{LIST OF TABLES}}
+        \@starttoc{lot}
+	\if@restonecol\twocolumn\fi
+}
+
+\def\cumakelistoftables{%
+        \addcontentsline{toc}{section}{\hspace{\l@secback}LIST OF TABLES}
+	\culistoftables
+	\pagebreak
+}
+%----------------------------------------------------------------------------
+%
+%\def\symb#1#2{\addcontentsline{los}{chapter}{{\makebox[15ex][l]{{#1}}
+%					 \parbox[t]{4in}{#2}}}}
+
+\newcommand{\cusymb}[2]{\addtocontents{los}{\protect\indent
+					\protect\makebox[15ex][l]{{#1}}
+					\protect\parbox[t]{4in}{#2}
+					\protect\\}}
+
+\def\culistofsymbols{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn\fi
+	\clearpage
+        \begin{center}
+		{\large {\bf NOMENCLATURE}}
+	\end{center}
+        \mbox{}\par
+%\chapter*{List of Symbols\@mkboth{LIST OF SYMBOLS}{LIST OF SYMBOLS}}
+        \@starttoc{los}
+	\if@restonecol\twocolumn\fi
+}
+
+\def\cumakelistofsymbols{%
+        \addcontentsline{toc}{section}{\hspace{\l@secback}LIST OF SYMBOLS}
+	\culistofsymbols
+	\pagebreak
+}
+
+%----------------------------------------------------------------------------
+% Reset page counter and pagestyle.
+%
+\def\custartbody{%
+	\clearpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	\setcounter{chapter}{0}
+%	\pagestyle{plain}	% set in \cumaketoc
+%	\dsp
+}
+
+%----------------------------------------------------------------------------
+
+\def\cumakebibliography{\cleardoublepage \global\@topnum\z@
+\@afterindentfalse \secdef\@cumakebibliography\@scumakebibliography}
+
+\def\@cumakebibliography[#1]#2{
+
+%\baselineskip 0.2cm
+\pagebreak
+        \addtocontents{toc}{\protect\vspace{1em}}
+        \addcontentsline{toc}{section}{\hspace{\l@secback}REFERENCES}
+%        \large
+%        \thispagestyle{empty}
+        \bibliography{#1}
+}
+
+%\pagestyle{headings}
+\makeatother
+
+%----------------------------------------------------------------------------
+% For some environments we switch back to single-spacing, also
+% provides \dsp in case you need double-spacing where single-spacing
+% is otherwise used.
+\def\ssp{\def\baselinestretch{1.2}\large\normalsize}
+\def\dsp{\def\baselinestretch{1.65}\large\normalsize}
