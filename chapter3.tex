@@ -4,11 +4,11 @@
  \section{Introduction}
 \label{sec:chap3-introduction}
 
-Pruning is a very popular practice to decrease the cost and time of operation. By pruning the pool of thousand or even millions of detectors and reduce the number to some feasible number combination technique become practical. There are mostly two important challenges when it comes to pruning, first in which level should prune the detectors, and secondly, how this pruning should be applied, what are the criteria?
+Pruning is a very popular practice to decrease the cost and time of combining multiple detectors. There are mostly two important challenges when it comes to pruning. The first one is to determine where pruning should be applied (e.g., feature level, model level, etc.). The second challenge is to determine the pruning criteria.
 
-Generally speaking, combination and so on pruning can be done at four different levels: sensor level, feature level, matching score level, and decision level \cite{Tao2009}, as illustrated in Fig.~\ref{fig::level_of_pruning}
+Generally speaking, pruning can be done at four different levels: sensor level, feature level, matching score level, and decision level \cite{Tao2009}, as illustrated in Fig.~\ref{fig::level_of_pruning}
 
-Pruning at matching score level is the most popular way of pruning, offering the best tradeoff between information content and ease of pruning \cite{Tao2009}. In this thesis main focus of pruning etectors is at decision level, however there is some scenario that needed to prune at the matching score level. When there are thousands of detecros at matching score level, it doesn't make sense to convert them to few response vector and combine everything together, because first of all we will have too many redundant response vectors and makes the pruning process longer.
+ In this thesis, the main focus of pruning detectors is at the decision level. However, there are some scenarios that require pruning at the matching score level. When there are thousands of detectors, it does not make sense to convert them to a few response vectors and combine everything together, because  we will have too many redundant response vectors, which hinders the efficiency of the pruning process.
 
 
 \begin{figure}[]
@@ -18,13 +18,13 @@ Pruning at matching score level is the most popular way of pruning, offering the
 \label{fig::level_of_pruning}
 \end{figure}
 
-After seeing the different levels that pruning can be applied, the question is how to prune the pool of available detectors and make a basket of reasonable detectors. To have a reasonable basket of remaining detectors mostly two criteria should be considered.  
+After seeing the different levels where pruning can be applied, the question is how to prune the pool of available detectors and make a basket of reasonable detectors. To have a reasonable basket of remaining detectors, two criteria should be considered.  
 
-Firstly, there should be some accurate detectors in the basket, with this we guarantee that the minimum accuracy we get after pruning and the combination is not worse than any of the detectors we had in the pool. Also by choosing and combining the accurate one we increase chances of getting better results than combining two random or naive detectors.  
+Firstly, there should be some accurate detectors in the basket, with this we guarantee that the minimum accuracy we obtain after pruning and the combination is not worse than any of the detectors we had in the pool. Also, by choosing and combining the accurate ones, we increase the chances of getting better results than combining two random or naive detectors.  
 
-Secondly, we need to be sure that we have a diverse basket of detectors, if very similar detectors  are selected  in the basket we shouldn't expect to see a major improvement after combining. Other thing that helps to increase the diversity of the basket is to try to find and select detectors which complement the errors of already selected detectors. Since we have already selected accurate detectors in the basket, it is a good practice to try to find the detectors that complement the errors of them. 
+Secondly, we need to be sure that we have a diverse basket of detectors. If very similar detectors  are selected  in the basket, we should not expect to see a major improvement after combining. Another thing that helps to increase the diversity of the basket is to try to find and select detectors that complement the errors of already selected detectors. Since we have already selected accurate detectors in the basket, it is a good practice to try to find the detectors that complement the errors these detectors exhibit. 
 
-To see the importance of diversity and how it can help improving the result of the combination, below example shows the step of selecting initial detectors and respective detectors compare to it that tries to complement its errors, and at the end give us the very promising result. As it's shown in figure~\ref{fig::accurate_detector} among all of the trained detecros one accurate one is selected, and in figure~\ref{fig::diverse_detector} it is shown that a detector is selected to increase diversity by completing  first detector's errors.
+To see the importance of diversity and how it can help improve the result of the combination, we show in the following example how we can select the initial detectors and respective detectors compare to it that tries to complement its errors, and at the end give us the very promising result. As it is shown in Figure~\ref{fig::accurate_detector}, among all the trained detectors, only one accurate detector is selected, In Figure~\ref{fig::diverse_detector}, we see that the detector is selected to increase the diversity by completing the first detector's errors.
 
 \begin{figure}[H]
 \centering
@@ -40,79 +40,11 @@ To see the importance of diversity and how it can help improving the result of t
 \label{fig::diverse_detector}
 \end{figure}
 
-\section{Pruning Decision Level}
-\label{sec:decision-level}
-
-Sometimes it is needed to prune earlier than match-score level, imagine there are too many trained models, as we had when we worked with ADFA data set, and since our technique work with response vector every one of these scores will convert to 100 new detectors, that is leading to having an even bigger pool of detectors. In order to prevent a large number of combinations and reduce chances of having redundant or very similar detectors it is a good idea to prune at score levels when there are lots of trained models. 
-
-As it is shown in fig.~\ref{fig::1000_ADFA} 1000 different HMM are trained on ADFA data set, with different initial matrix and different number of states, and as it is clear on the figure; many of them are very similar regarding having different number of states or... . That forces us to run pruning at decision level to improve the performance.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\linewidth]{figs/1000-ADFA}
-\caption{1000 different HMM are trained on ADFA}
-\label{fig::1000_ADFA}
-\end{figure}
-
-For pruning at this level we are using hierarchical clustering,  Hierarchical clustering organizes objects into a dendrogram whose branches are the desired clusters. Hierarchical clustering is a widely used method for detecting clusters in genomic data. Clusters are defined by cutting branches off the dendrogram. A common but inflexible method uses a constant height cutoff value; this method exhibits suboptimal performance on complicated dendrograms~\cite{Langfelder2008}.   
-
-There are lots of different metrics (Euclidean, Cosine,...) and methods (Signle, Complete, Average, Ward, Median,...) that can be used to create the clusters. Since the purpose is to reduce the 1000 scores (that comes form training diffrenet model on dataset) to 20 unique clusters and pick final 20 scores from each of the cluster, we can use any combination of above mentioned metrics and methods, and specific method or metric doesn't change the result significantly.
-
-In fig.~\ref{fig:Dendrogram_all} there are 6 different dendrograms by setting cutoff to 20.
-
-
-\begin{figure}[H] 
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-average-cosine}
-\caption{Metric=Cosine, Method=Average} \label{fig:Dendrogram_all_single_a}
-\end{subfigure}\hspace*{\fill}
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-complete-cosine}
-\caption{Metric=Cosine, Method=Complete} \label{fig:Dendrogram_all_single_b}
-\end{subfigure}
-
-\medskip
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-centroid}
-\caption{Metric=Euclidean, Method=Centroid} \label{fig:Dendrogram_all_single_c}
-\end{subfigure}\hspace*{\fill}
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-average}
-\caption{Metric=Euclidean, Method=Average} \label{fig:Dendrogram_all_single_d}
-\end{subfigure}
-
-\medskip
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-complete}
-\caption{Metric=Euclidean, Method=Complete} \label{fig:Dendrogram_all_single_e}
-\end{subfigure}\hspace*{\fill}
-\begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{figs/Dendrogram/dendrogram-ward}
-\caption{Metric=Euclidean, Method=Ward} \label{fig:Dendrogram_all_single_f}
-\end{subfigure}
-
-\caption{Dendrograms with cutoff as 20 with different metrics and methods on 1000 different model}
-\label{fig:Dendrogram_all}
-\end{figure}
-
-
-In fig.~\ref{fig::20_scores} the final 20 selected scores that are chosen based on dendrogram with 20 cutooff are shown.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\linewidth]{figs/Dendrogram/soft-point}
-\caption{20 selected scores based on hierarchical clustering }
-\label{fig::20_scores}
-\end{figure}
-
-
-The scores that are shown in fig.~\ref{fig::20_scores} are our starting points for next level of pruning. In Section~\ref{sec:pbc} we will see how we convert these scores to number of respons vectors and apply our technique to them to reduce the pool of detectors and combination cost.
-
 
 \section{Pruning Boolean Combination (PBC) Approach}
 \label{sec:pbc}
 
-In this section we describe our Pruned Boolean Combination (PBC) algorithm, which is based on two novel pruning techniques that select a subset of diverse and accurate detectors for combination, while discarding the remaining ones, this happened at decision level.
+In this section, we describe our Pruned Boolean Combination (PBC) algorithm, which is based on two novel pruning techniques that select a subset of diverse and accurate detectors for combination, while discarding the remaining ones, this happened at decision level.
 PBC can avoid both the exponential explosion of combinations provided by the brute-force approach and the sequential combination of IBC.
 The main difference is that the PBC algorithm proceeds by thresholding all available soft detectors into crisp ones.
 This step is, in fact, not essential for PBC because thresholding could be done outside the algorithm and the crisp detectors are directly input for pruning.

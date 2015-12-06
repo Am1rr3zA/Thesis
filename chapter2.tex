@@ -43,17 +43,17 @@ In addition, the IBC algorithm is sensitive to the order in which the detectors 
 
  \section{Synthetic Data Set}
 \label{sec:synthetic}
-In order to get a better insight about the reason of the combination and selecting the proper detectors among millions of trained detectors, I am going to provide the full example of training, pruning and combining detector on systetich data set. This way it is much easier to see and follow what happens from begging.
+In order to get a better insight about the reason of the combination and selecting the proper detectors among millions of trained detectors, we provide in this section examples of training, pruning and combining detectors on a synthetic data set. 
 
-For this purpose I chose 2 famous synthetic data sets. 
+For this purpose, we chose three known synthetic data sets [REF]. 
 \begin{enumerate}
-  \item Lithuaninan
+  \item Lithuanian
   \item Banana (Moon)
   \item Circle
 \end{enumerate}  
-unlike the real data set it's possible to plot these data set and shows the trained model over them, and this makes it easier to see what happens when we prune some unnecessary trained model and only keep those that have some meaning.
+unlike real data sets, it is possible to plot these data set and show the trained model over them, and this makes it easier to see what happens when we prune some unnecessary trained models,  keeping only those that can increase the detection accuracy.
 
-The following plots show the preliminary state of 3 above-mentioned data sets.
+The following plots show the preliminary state of the synthetic data sets.
 
 \begin{figure}[]
 \centering
@@ -76,9 +76,9 @@ The following plots show the preliminary state of 3 above-mentioned data sets.
 \label{Figure::circle}
 \end{figure}
 
-Another purpose of this example is to show that you can reach the same level of detection by combining very simple and naive model (detector) instead of spending time to find the proper model and wait to train that model on data set, which is usually the time consuming task. In this example, hundreds of linear detector (which is very fast, but it's not accurate) are trained over a data set. In order to have diverse learner detectors we changed the ratio of data and their label during training to get as diverse detectors as possible.
+Another purpose of this example is to show that we can reach the same level of detection by combining very simple and naive model detectors, instead of spending time to find the proper model and to train that model on the data set, which is usually a time consuming task. In this example, hundreds of linear detectors  are trained the data set. In order to have diverse learner detectors, we changed the ratio of data and their label during training to obtain as many diverse detectors as possible.
 
-As shown below, we have different trained detectors on these data sets which none of them can detect all the classed but as we will show later we can use them to better classify the data set by combining these simple detectors.
+As shown below, we have different trained detectors on these data sets; none of them, however, can detect all the classes but as we will show later we can use them to better classify the data set by combining these simple detectors.
 
 \begin{figure}[H]
 \centering
@@ -101,7 +101,7 @@ As shown below, we have different trained detectors on these data sets which non
 \label{Figure::circle_all}
 \end{figure}
 
-By selecting the right models and combine them together we can increase the detection rate, as below plots show; the plot on the left show all the original detectors and tehir ROC before combination, after selecting the proper detectors and combine them together (after just one iteration) we can reach the right plot which shows the combined detectors (in yellow) and their improved ROC curve, which shows more accurate result. The next step is to show why combination proivdes better result and how we can get the same result just with combining part of trained models.
+By selecting the right models and combining them  we can increase the detection rate, as shown in Figures 2.7, 2.8 and 2.9. The figures on the left show the original detectors and their ROC before combination. After selecting the proper detectors and combining them together (after just one iteration) we can reach the accuracy shown on the right figures, which show the combined detectors (in yellow) and their improved ROC curve. The next step is to show why combination provides better results and how we can obtain the same result just by combining parts of trained models.
 
 
 
@@ -120,7 +120,7 @@ By selecting the right models and combine them together we can increase the dete
         \caption{ROC after combination}
         \label{fig:ROC_right_lithuanian}
     \end{subfigure}
-    \caption{ROC comparison on Lithuanian dataset before and after first round of combination}
+    \caption{ROC comparison on Lithuanian data set before and after first round of combination}
     \label{fig:ROC_comparison_lithuanian}
     \end{adjustbox}
 \end{figure}
@@ -141,7 +141,7 @@ By selecting the right models and combine them together we can increase the dete
         \caption{ROC after combination}
         \label{fig:ROC_right_banana}
     \end{subfigure}
-    \caption{ROC comparison on Banana dataset before and after first round of combination}
+    \caption{ROC comparison on Banana data set before and after first round of combination}
     \label{fig:ROC_comparison_banana}
     \end{adjustbox}
 \end{figure}
@@ -161,12 +161,12 @@ By selecting the right models and combine them together we can increase the dete
         \caption{ROC after combination}
         \label{fig:ROC_right_circle}
     \end{subfigure}
-    \caption{ROC comparison on Circle dataset before and after first round of combination}
+    \caption{ROC comparison on Circle data set before and after first round of combination}
     \label{fig:ROC_comparison_circle}
     \end{adjustbox}
 \end{figure}
 
-For each data set we are going to show there is no single detectors that can classify the dataset properly, yet there are at least two detectors that can complete each other and produce better results.
+For each data set, we show that there is no single detector that can classify the data set properly. 
 
 \begin{figure}[t!] % "[t!]" placement specifier just for this example
 \begin{subfigure}{0.48\textwidth}
@@ -198,10 +198,10 @@ For each data set we are going to show there is no single detectors that can cla
 \caption{Sixth subfigure} \label{fig:Lithuanian_all_single_f}
 \end{subfigure}
 
-\caption{Some of best LDA ( Linear Discriminant Analysis) that can be trained on Lithuanina data set} \label{fig:Lithuanian_all_single}
+\caption{Some of best LDA ( Linear Discriminant Analysis) that can be trained on Lithuanian data set} \label{fig:Lithuanian_all_single}
 \end{figure}
 
-As it's shown in Figure~\ref{fig:Lithuanian_all_single} with just one LDA we cannot classify all the classes 100\%. ‌But with closer look at this data set and our LDA we can see that it's possible to choose two of these detectors and combine them and get a better result. As it's shown in Figure~\ref{fig:Dataset_ROC_Lithuanian} we select detector from Firgure~\ref{fig:Lithuanian_all_single_a}  and detector form ~\ref{fig:Lithuanian_all_single_d} and combine them together.
+As it is shown in Figure~\ref{fig:Lithuanian_all_single}, with just one LDA, we cannot classify all the classes 100\%. We can, however, see that it is possible to choose two of these detectors and combine them to obtain a better result. As it is shown in Figure~\ref{fig:Dataset_ROC_Lithuanian}, we select detector from Figure~\ref{fig:Lithuanian_all_single_a}  and detectors from ~\ref{fig:Lithuanian_all_single_d} and combine them together.
 
 \begin{figure}[H]
     \centering
@@ -223,7 +223,7 @@ As it's shown in Figure~\ref{fig:Lithuanian_all_single} with just one LDA we can
     \end{adjustbox}
 \end{figure}
 
-If we combine these two detectors with help of $AND$ operation as you can see the result in Figure~\ref{fig::combined_lithuanian_roc}  we can get a better result. The big red point is the mapping of the combined detectors, and it's clear and it's improved since it's passed the current ROC and if we recalculate the ROC based on this new generated point we will have greater AUC.
+If we combine these two detectors with an $AND$ operation,  as shown in Figure~\ref{fig::combined_lithuanian_roc},  we can obtain a better result. The  red point is the mapping of the combined detectors. As we can see if we recalculate the ROC based on this new generated point we will have a greater AUC.
 
 \begin{figure}[H]
 \centering
@@ -233,7 +233,7 @@ If we combine these two detectors with help of $AND$ operation as you can see th
 \end{figure}
 
 
-The very similar approach can be applied to Banana data set with a little bit different. As you can see in Figure~\ref{fig:Banana_all_single} like Lithuanianan data set, it is not possible to classify the data set completely but here we cannot classify the dataset completely even with help of 2 different detectors. In this specific example the minimum number should be 3 in order to classify data in an accurate way. That shows the best approach is to select and combine detectors in an irrational way so in every phase two of the best accurate and diverse detritus should be selected and get combined and insert the result back to the pool of detectors and make the whole process from the beginning till there is no major improvement.
+A similar approach can be applied to the Banana data set. As you can see in Figure~\ref{fig:Banana_all_single}, like for the Lithuania data set, it is not possible to classify the data set completely with one detector.  In this specific example, we need at least three detectors in order to classify the data in an accurate way. 
 
 \begin{figure}[t!] % "[t!]" placement specifier just for this example
 \begin{subfigure}{0.48\textwidth}
@@ -278,10 +278,9 @@ Based on the observation in this example it is better to select 3 detectors in o
 \label{fig::combined_banana_roc}
 \end{figure}
 
-These examples show that it is not always necessary to train complex model ,which takes time and resources, over the data set to get the best result possible, the same result can be achieved by combining two or more simple models which can be trained much faster, and also by increasing number these simple models we are sure that we cover most of the cases and even outliers in the data set. Besides, even though we decide to train some complex model there is no guarantee that you can get the best result since every model has its own weakness. At the end some kind of combination (combining with the model that  complement the complex model's error) will help to improve the result. In the next chapter our focus is to show how we can select those meaningful models that help to improve the result since it is not possible or even rational to train thousands of models and combine them all together. Also, we should keep in mind that in some cases we need to go for more than one iteration that means combining every single trained together models take more time or even it is impossible.
+These examples show that it is not always necessary to train complex models, which takes time and resources, over the data set to obtain the best result possible. The same result can be achieved by combining two or more simple models, which can be trained much faster. Also by increasing the number these simple models, we can cover most of the cases (including the outliers) in the data set. Besides, even if we decide to train complex models, there is no guarantee that we can obtain the best results since every model has its own weaknesses. This said, some sort of combination is needed to help improve the result. In the next chapter we show how we can select a set of meaningful models that can help improve the result since it is not possible to train thousands of models and combine them all together. 
 
-
-The Cricle data set is a good example that doing combination in an iterative way will improve the result, as it is shown in figure~\ref{fig:Circle_all_single} There are not any two detectors that can be selected and combined together in order to classify the whole data set completely, yet if we select all of these good detectors and start by combining two of them and for next iteration combine the result with the next one as you can see in figure~\ref{fig::combined_circle_roc} we can classify the whole data set with the help of few simple detectors.
+The Circle data set is a good example where doing combination in an iterative way improves the accuracy, as shown in Figure~\ref{fig:Circle_all_single}. We could not find any two detectors that can be combined  to classify the whole data set. What we need here is to select all of these detectors and start  combining them two by two iteratively. In Figure~\ref{fig::combined_circle_roc}, we show the result of classifying iteratively  the whole data set with the help of a few simple detectors.
 
 
 \begin{figure}[H] % "[t!]" placement specifier just for this example
@@ -314,13 +313,13 @@ The Cricle data set is a good example that doing combination in an iterative way
 \caption{Sixth subfigure} \label{fig:Circle_all_single_f}
 \end{subfigure}
 
-\caption{Series of 2 selected LDA ( Linear Discriminant Analysis) that can be trained and combined on Circle data set} \label{fig:Circle_all_single}
+\caption{Series of 2 selected LDA ( Linear Discriminant Analysis) that can be trained and combined on the Circle data set} \label{fig:Circle_all_single}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{figs/Circle/9999999-combined_selected_before_combination}
-\caption{Best potential selected detectors on Circle data set}
+\caption{Best potential selected detectors on the Circle data set}
 \label{fig::combined_circle_roc}
 \end{figure}
 
