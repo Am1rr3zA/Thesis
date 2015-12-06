@@ -45,7 +45,7 @@ In addition, the IBC algorithm is sensitive to the order in which the detectors 
 \label{sec:synthetic}
 In order to get a better insight about the reason of the combination and selecting the proper detectors among millions of trained detectors, we provide in this section examples of training, pruning and combining detectors on a synthetic data set. 
 
-For this purpose, we chose three known synthetic data sets [REF]. 
+For this purpose, we chose three known synthetic data sets~\cite{Duin2000}. 
 \begin{enumerate}
   \item Lithuanian
   \item Banana (Moon)
@@ -76,7 +76,7 @@ The following plots show the preliminary state of the synthetic data sets.
 \label{Figure::circle}
 \end{figure}
 
-Another purpose of this example is to show that we can reach the same level of detection by combining very simple and naive model detectors, instead of spending time to find the proper model and to train that model on the data set, which is usually a time consuming task. In this example, hundreds of linear detectors  are trained the data set. In order to have diverse learner detectors, we changed the ratio of data and their label during training to obtain as many diverse detectors as possible.
+Another purpose of this example is to show that we can reach the same level of detection by combining very simple and naïve model detectors, instead of spending time to find the proper model and to train that model on the data set, which is usually a time consuming task. In this example, hundreds of linear detectors  are trained the data set. In order to have diverse learner detectors, we changed the ratio of data and their label during training to obtain as many diverse detectors as possible.
 
 As shown below, we have different trained detectors on these data sets; none of them, however, can detect all the classes but as we will show later we can use them to better classify the data set by combining these simple detectors.
 
@@ -101,7 +101,7 @@ As shown below, we have different trained detectors on these data sets; none of 
 \label{Figure::circle_all}
 \end{figure}
 
-By selecting the right models and combining them  we can increase the detection rate, as shown in Figures 2.7, 2.8 and 2.9. The figures on the left show the original detectors and their ROC before combination. After selecting the proper detectors and combining them together (after just one iteration) we can reach the accuracy shown on the right figures, which show the combined detectors (in yellow) and their improved ROC curve. The next step is to show why combination provides better results and how we can obtain the same result just by combining parts of trained models.
+By selecting the right models and combining them  we can increase the detection rate, as shown in Figures~\ref{fig:ROC_comparison_banana}, ~\ref{fig:ROC_comparison_lithuanian} and ~\ref{fig:ROC_comparison_circle}. The figures on the left show the original detectors and their ROC before combination. After selecting the proper detectors and combining them together (after just one iteration) we can reach the accuracy shown on the right figures, which show the combined detectors (in yellow) and their improved ROC curve. The next step is to show why combination provides better results and how we can obtain the same result just by combining parts of trained models.
 
 
 
@@ -268,7 +268,7 @@ A similar approach can be applied to the Banana data set. As you can see in Figu
 \caption{Some of best LDA ( Linear Discriminant Analysis) that can be trained on Banana data set} \label{fig:Banana_all_single}
 \end{figure}
 
-Based on the observation in this example it is better to select 3 detectors in order to be classify the data set, if we select detector in Figure~\ref{fig:Banana_all_single_a}, Figure~\ref{fig:Banana_all_single_c} and Figure~\ref{fig:Banana_all_single_f}  and combine them together we should expect to get the most accurate result among all other detectors. in figure~\ref{fig::combined_banana_roc} you can see all these detectors in one plot.
+Based on the observation in this example it is better to select 3 detectors in order to be classify the data set, if we select detector in Figure~\ref{fig:Banana_all_single_a}, Figure~\ref{fig:Banana_all_single_c} and Figure~\ref{fig:Banana_all_single_f}  and combine them together we should expect to get the most accurate result among all other detectors. in Figure~\ref{fig::combined_banana_roc} you can see all these detectors in one plot.
 
 
 \begin{figure}[H]

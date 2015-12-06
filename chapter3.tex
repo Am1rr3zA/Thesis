@@ -6,7 +6,7 @@
 
 Pruning is a very popular practice to decrease the cost and time of combining multiple detectors. There are mostly two important challenges when it comes to pruning. The first one is to determine where pruning should be applied (e.g., feature level, model level, etc.). The second challenge is to determine the pruning criteria.
 
-Generally speaking, pruning can be done at four different levels: sensor level, feature level, matching score level, and decision level \cite{Tao2009}, as illustrated in Fig.~\ref{fig::level_of_pruning}
+Generally speaking, pruning can be done at four different levels: sensor level, feature level, matching score level, and decision level \cite{Tao2009}, as illustrated in Figure~\ref{fig::level_of_pruning}
 
  In this thesis, the main focus of pruning detectors is at the decision level. However, there are some scenarios that require pruning at the matching score level. When there are thousands of detectors, it does not make sense to convert them to a few response vectors and combine everything together, because  we will have too many redundant response vectors, which hinders the efficiency of the pruning process.
 
@@ -20,11 +20,12 @@ Generally speaking, pruning can be done at four different levels: sensor level, 
 
 After seeing the different levels where pruning can be applied, the question is how to prune the pool of available detectors and make a basket of reasonable detectors. To have a reasonable basket of remaining detectors, two criteria should be considered.  
 
-Firstly, there should be some accurate detectors in the basket, with this we guarantee that the minimum accuracy we obtain after pruning and the combination is not worse than any of the detectors we had in the pool. Also, by choosing and combining the accurate ones, we increase the chances of getting better results than combining two random or naive detectors.  
+Firstly, there should be some accurate detectors in the basket, with this we guarantee that the minimum accuracy we obtain after pruning and the combination is not worse than any of the detectors we had in the pool. Also, by choosing and combining the accurate ones, we increase the chances of getting better results than combining two random or naïve detectors.  
 
 Secondly, we need to be sure that we have a diverse basket of detectors. If very similar detectors  are selected  in the basket, we should not expect to see a major improvement after combining. Another thing that helps to increase the diversity of the basket is to try to find and select detectors that complement the errors of already selected detectors. Since we have already selected accurate detectors in the basket, it is a good practice to try to find the detectors that complement the errors these detectors exhibit. 
 
-To see the importance of diversity and how it can help improve the result of the combination, we show in the following example how we can select the initial detectors and respective detectors compare to it that tries to complement its errors, and at the end give us the very promising result. As it is shown in Figure~\ref{fig::accurate_detector}, among all the trained detectors, only one accurate detector is selected, In Figure~\ref{fig::diverse_detector}, we see that the detector is selected to increase the diversity by completing the first detector's errors.
+To see the importance of diversity and how it can help to improve the result of the combination, we show in the following example, importance of selecting the initial detectors and respective detectors compare to it, the one that tries to complement first detector's errors. And by combining these two detectors with a right Boolean operator with will reach a very promising result. As it is shown in Figure~\ref{fig::accurate_detector}, among all the trained detectors, we only one need to find a way to select a detector that is accurate,and in Figure~\ref{fig::diverse_detector}, we see that we are trying to select a detector, that is very diverse to previously selected one in order to increase the chance of getting better results after combination. The two selected detectors in Figure~\ref{fig::accurate_detector} and Figure~\ref{fig::diverse_detector} are completing each other error.
+
 
 \begin{figure}[H]
 \centering
@@ -322,7 +323,7 @@ We calculate $IMP_X$ for all 10 Boolean operations and add them to the previous 
 \label{fig::expected_value}
 \end{figure}
 
-As shown in Fig. \ref{fig::expected_value}  the representation of that table if we use color plotting. The red region shows classifiers with higher IMP and the blue region shows classifier with low IMP. That means if we select our basket of classifiers from red region we would have a higher chance to get better classifiers after combination of those pruned classifiers. Our assumption for creating above table was that we have all the possible classifiers with 2 digits precision and after computing all possible combination for all the classifiers we set the value of each cell below minor diameter to zero (all the classifiers below random line) since want to evaluate goodness of classifiers better than random guess.
+As shown in Figure~\ref{fig::expected_value}  the representation of that table if we use color plotting. The red region shows classifiers with higher IMP and the blue region shows classifier with low IMP. That means if we select our basket of classifiers from red region we would have a higher chance to get better classifiers after combination of those pruned classifiers. Our assumption for creating above table was that we have all the possible classifiers with 2 digits precision and after computing all possible combination for all the classifiers we set the value of each cell below minor diameter to zero (all the classifiers below random line) since want to evaluate goodness of classifiers better than random guess.
 We can re-produce the same table by computing the expected value of combination just for the classifiers that already we have; by doing that we will get the below table (plot) and we can prune our classifier based on this new table.
 
 \section{Complexity Analysis}

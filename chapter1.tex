@@ -8,7 +8,7 @@ Signature-based (or misuse) IDSs look for events that correspond to patterns of 
 They can provide a high level of accuracy, however, are limited to detecting known attacks and vulnerable to polymorphic attacks (which are capable of changing their signatures as they propagate).
 
 Anomaly detection systems (ADSs), on the other hand, monitor for significant deviations from normal system behavior.
-They are typically trained (using machine learning and data mining techniques) on datasets collected over a period of attack-free activities to learn the normal system behavior, and then deployed to detect deviations from the expected system behavior.
+They are typically trained (using machine learning and data mining techniques) on data sets collected over a period of attack-free activities to learn the normal system behavior, and then deployed to detect deviations from the expected system behavior.
 These deviations are reported as anomalous events, although they are not necessarily malicious activities or attacks because they may also correspond to coding or configuration errors.
 An ADS can detect novel attacks (not known during training time) but generate large number of false alarms, because it is difficult to obtain complete descriptions of complex system behavior, which may change over time.
 
@@ -45,7 +45,7 @@ Although both pruning techniques are based on Cohen's Kappa \cite{Cohen1995a} me
 While the first technique relies only on Kappa measure (MinMax-Kappa), the second uses both Kappa and the ROC convex hull (ROCCH-Kappa).
 Therefore, our proposed PBC approach provides an efficient way to prune and combine large number of detectors, which avoids the exponential explosion of combinations of brute-force techniques, and reduces the sequence of combinations provided by IBC.
 
-We evaluate our PBC-based ADS using ADFA Linux Dataset (ADFA-LD)\footnote{http://www.cybersecurity.unsw.adfa.edu.au/ADFA IDS Datasets/}, which has been recently made publicly available on the website of the University of New South Wales \cite{Creech2013a}.
+We evaluate our PBC-based ADS using ADFA Linux Data set (ADFA-LD)\footnote{http://www.cybersecurity.unsw.adfa.edu.au/ADFA IDS Datasets/}, which has been recently made publicly available on the website of the University of New South Wales \cite{Creech2013a}.
 The performance of the PBC using both pruning techniques are compared to that of IBC and BBC2 in terms of ROC analysis and time complexity.
 The results show that PBC with both pruning techniques are capable of maintaining similar overall accuracy as measured by the ROC curves to that of IBC and BBC2.
 However, the time required for searching and selecting (or pruning) the subset of detectors from the same ensemble of detectors is on average three magnitudes lower for PBC with MinMax-Kappa pruning than that of BBC2.
