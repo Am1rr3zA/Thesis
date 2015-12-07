@@ -14,12 +14,20 @@ An ADS can detect novel attacks (not known during training time) but generate la
 
 IDSs can also be categorized depending on their location of deployment into network- and host-based detection systems (a more comprehensive taxonomy of IDSs can be found in \cite{Liao2013}).
 Network-based IDSs monitor and analyze traffic to and from all devices on the network.
-They may be be located anywhere in the network; integrated in network devices (e.g., switches and routers) or as a standalone device.
+They may be located anywhere in the network; integrated in network devices (e.g., switches and routers) or as a standalone device.
 A host-based IDS runs on a host computer and monitors sensitive activities on this host, such as unauthorized access, modification of files, or system calls.
 
 In this work, we focus on host-based anomaly detection using system calls -- the gateway between user and kernel mode.
 Short sequences of system calls have been shown consistent with normal host operation, and can be used to detect attacks \cite{Forrest1996,Warrender1999}.
-A large number of research studies have investigated different machine learning and data mining techniques for detecting anomalies in system call sequences \cite{Forrest2008}.
+A large number of research studies have investigated different machine learning and data mining techniques for detecting anomalies in system call sequences \cite{Forrest2008, Creech2014, Yolacan2014, Warrender1999}.
+
+One of the early work in the field was done by Warrender and Forrest~\cite{Warrender1999}. They introduced the technique called Sequence Time-Delay Embedding (STIDE)  "acquires a model of normal behavior by segmenting training data into fixed-length sequence"~\cite{Warrender1999}. This is done by sliding a detector window of length $DW$ over the training data. Each of this sequence obtained from the data stream is stored in a "normal database" of sequences of length $DW$. A similarity metrics are then used to establish the degree of similarity between the test data and the model of normal behaviour that is obtained in the previous step. Sequence of length DW is obtained from the test data using a sliding window, and for each length DW sequence the similarity metric simply established whether that sequence exists or does not exist in the normal database~\cite{Tan2002}.
+STIDE is a good starting point, but still has a number of issues. First; what is the best anomaly detection window size? Tan et al~\cite{Tan2002} have shown that for New Mexico data set the minimum window size should be 6, otherwise we are going to miss detection of some intrusions. Even in their work they mentioned we cannot specify a particular window size that will work for all data set, therefore we should find minimum window size based on our data in the training phase.
+The other issue with STIDE or other detector that want to model the normal behaviour of the system is that learning phase is too much time consuming, you should run the system in a very clean environment for a long time and store traces of the normal behaviour and yet you are not completely sure that you can model the normal behaviour of the system based on the traces you had stored so far, besides that the normal behaviour of the system will change in the course of time.
+
+One of the recent study that has used machine learning techniques on system call traces to find anomalies are done by Creech et al~\cite{Creech2014}. They had proposed Extreme Learning Machine (ELM), which is a new and strong technique in the area of neural network family. The advantage of ELM comparison to previous techniques is that, it is much faster and more scalable. Beside it is a very lightweight component and it is still very accurate which makes it very interesting. However, it has its own limit and we cannot improve ELM result which we will address the solution in my thesis.
+
+
 Among these, techniques based on Hidden Markov Models (HMMs)~-- probabilistic models for sequential data~-- have been shown to produce a high level of detection accuracy \cite{Du2004,Gao2002,Hoang2004,Hu2010,Wang2004,Warrender1999,Zhang2003,Khreich2009-ICC, Sultana2012, Murtaza2012}.
 
 The success of an ADS depends largely on the model of normal behavior.
