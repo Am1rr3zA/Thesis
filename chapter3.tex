@@ -313,7 +313,7 @@ Now we have 3 classifiers X, Y and the combination of them using XOR operation (
 
 We compute AUC for classifier X, Y and C and keep classifier C only if its AUC is greater than AUC of both classifiers X and Y. Greater AUC means that our classifier is much closer to the ground truth (which will give us the TPR = 1 and FPR = 0).
 If AUC$_C$ is greater than AUC$_X$ and AUC$_Y$ we keep the difference in AUC as the improvement of that classifier with the specific Boolean operation used. The variable that keeps the improvement for classifier X is IMP as defined below:
-$IMP_X  = AUC_C – Max (AUC_X, AUC_Y)$
+$IMP_X  = AUC_C - Max(AUC_X, AUC_Y)$
 We calculate $IMP_X$ for all 10 Boolean operations and add them to the previous value. At the end, $IMP_X$ has the expected value of all of the combination possible between classifiers X and Y using 10 Boolean operations. We repeat these steps for classifier X in combination with the rest of classifiers, choosing one each time as a new classifier Y and update $IMP_X$. The final $IMP_X$ value has the total expected value of the improvement with respect to all the combinations if we select classifier X. After we compute $IMP_X$ for classifier X and the rest of classifiers we will update the value in our table in a $TPR_X$ $FPR_X$ position with $IMP_X$. We repeat all these steps for every classifier we have and update their IMP in the table and then we can create a table shown below with each cell representing the expected value of the classifier combinations getting improved. We select that classifier with the most improvement.
 
 \begin{figure}[H]
