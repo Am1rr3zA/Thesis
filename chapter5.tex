@@ -1,28 +1,27 @@
 \chapter{Conclusion} \label{chapter5}
-In this thesis, we proposed PBC, an efficient approach for selecting and combining anomaly detectors, which relies on novel pruning techniques. Our pruning technique is based on measure of agreement between detectors (In this thesis, we used Kappa, Distance Covariance and Distance Correlation).
+In this thesis, we proposed PBC, an efficient approach for selecting and combining anomaly detectors, which relies on novel pruning techniques. Our pruning technique is based on measure of agreement between detectors (here, we used Kappa, Distance Covariance and Distance Correlation).
 
-During the design phase, the PBC is able to select a small subset of diverse and accurate detectors for Boolean combinations, while discarding the remaining ones. The PBC's goal is to make a basket of detectors that complement each others errors while still are accurate and meaningful.
+The main advantage in the design phase is that, the PBC is able to select a small subset of diverse and accurate detectors for Boolean combinations, while discarding the remaining ones. The PBC's goal is to make a basket of detectors that complements each other’s errors while still being accurate and meaningful.
 
-The pruning techniques we developed at the core of PBC rely on maximum and minimum of each metrics (MinMax-Kappa, MinMac-dCor, MinMax-dCov) and on the ROC convex hull (ROCCH-Kappa, ROCCH-dCor, ROCCH-dCov) to aggressively prune redundant and trivial detectors.
+Our pruning techniques we developed at the core of PBC rely on maximum and minimum of each metrics (MinMax-Kappa, MinMac-dCor, MinMax-dCov) and on the ROC convex hull (ROCCH-Kappa, ROCCH-dCor, ROCCH-dCov). This approach enables our technique to aggressively prune redundant and trivial detectors.
 
 The results on ADFA-LD system call data sets and Canali show that PBC with both pruning techniques are capable of maintaining similar overall accuracy as measured by the ROC curves to that of IBC and BBC2 which we used for baseline cases.
 Therefore, our proposed PBC-based ADS is able to prune and combine large number of detectors without suffering from the exponential explosion in number of combinations provided with the pairwise brute-force Boolean combination techniques.
 This has been shown analytically (in the time complexity analysis) and confirmed in the experimental results.
 
-The Core of our pruning technique is choosing a good measure of agreement, our experiment shows as long as we use a strong and good metric with one of MinMax or ROCCH technique the PBC works well and lead to a promising result.
+The core of our pruning technique is choosing a good measure of agreement. Our experiments show that if we use a good and strong metric in combination with either MinMax or ROCCH techniques; the PBC works well and leads to promising results.
 
-During the operational phase, PBC with both pruning techniques always provides two crisp detectors for each combination, while IBC requires an average of $11$ detectors to achieve the same operating point (in terms of true and false positive rates).
+During the operational phase, PBC with both pruning techniques only provides two crisp detectors for each combination, while IBC requires an average of $11$ detectors to achieve the same operating point (in terms of true and false positive rates).
 
-
-The proposed PBC approach is also general and can be applied to combine any soft or crisp detectors or two-class classifiers in a wide range of applications that requires combination of decisions.
+In addition to above advantages, the proposed PBC approach is also versatile and can be applied to combine any soft or crisp detectors or two-class classifiers in a wide range of applications that requires combination of decisions.
 
 
 
 \section{Future Research Opportunities}
 \label{sec:future-research}
 
-Future work involves extending our pruning on different levels. In this thesis most of our work was about pruning and combining on a decision level; however, there is plenty of interesting area to investigate if we want to extend our pruning on different level especially on the matching score level as you can see in Figure ~\ref{fig::level_of_pruning}.
+For future work, we can extend our pruning technique to many different levels. Here we mainly focused only on pruning and combining in the decision level; however, there is plenty of opportunities to investigate and incorporate this technique in different levels; especially on the matching score level as you can see in Figure  ~\ref{fig::level_of_pruning}.
 
-Another interesting direction is to investigate the potential improvement by re-combining the resulting combinations with the selected detectors and going for more iterations and find a way to determine the maximum number of iterations we want to apply on our data set, and explore other measures of diversity to see if there is a one good solution for all data set.
+Another interesting direction is to investigate the potential improvements made by re-combining the resulting combinations with the selected detectors. We can also perform more iteration and find a solution to optimize the maximum number of iterations that we apply on our data set. We recommend to explore other measures of diversity to determine whether there is one good solution for every data set.
 
-We also intend to implement the new techniques in TotalADS \cite{Murtaza2014}, a tool we have developed to support multiple anomaly detectors. Finally, we need to investigate how we can reduce the size of traces to enable better scalability. Example of trace abstraction techniques are presented in \cite{Hamou-Lhadj2005,Murtaza2013}.
+We also intend to implement this new techniques in TotalADS \cite{Murtaza2014}, a tool we have developed to support multiple anomaly detectors. Finally, we need to investigate how we can reduce the size of traces to enable better scalability. Example of trace abstraction techniques are presented in \cite{Hamou-Lhadj2005,Murtaza2013}.
