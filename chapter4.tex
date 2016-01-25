@@ -16,7 +16,7 @@ First, we trained 20 HMMs with different numbers of states (i.e., $K=20$ soft de
 On average, the output of each HMM is thresholded into $n_{avg} = 100$ thresholds or crisp detectors, which provides $n = K \times n_{avg} = 20\times 100 =2000$ crisp detectors in the ensemble.
 
 The objective is to choose the most accurate subset from this ensemble for combination while pruning the remaining detectors according to our MinMax-Kappa or ROCCH-Kappa technique.
-Then, the ROC curves and AUC results are compared to those of IBC and the pairwise Bruteforce Boolean Crisp combination (BBC2).
+Then, the ROC curves and AUC results are compared to those of IBC and the pairwise brute-force Boolean Crisp combination (BBC2).
 BBC2 is another baseline, which is the PBC Algorithm~\ref{PBC}, but without any pruning mechanism.
 
 For evaluation of performance, a 5-fold cross-validation (5FCV) is applied to the test set comprising the 4373 normal and the 60 anomalous traces.
@@ -30,7 +30,7 @@ This is because we wanted to test the boost in performance while using a small n
 For the second data set, we used the Canali data set~\cite{Canali2012}. The data was generated from 10 different machines. Our models, which are 4 HMMs and 5 SVMs, are trained on the normal data from: anubis-good + machine1 + ... + machine9, and the scores that we used are computed on the test data: machine10 that consist of (23 normal traces) + malware (5855 anomalous traces).
 
 With this data set, in contrast with ADFA that we showed the boost in result with a small number of anomalies we want to show even when  anomalies are the majority of the test set with PBC technique there is a boost in result.
-Here again we applied the PBC technqie with help of different distance correlation metric (Kappa, Distance Covariance, Distance Correlation) and compare the result with BBC2 and IBC. For Canali we used 5FCV approach as well. The reuslt are shown in section~\ref{sec:results-canali}.
+Here again we applied the PBC technique with help of different distance correlation metric (Kappa, Distance Covariance, Distance Correlation) and compare the result with BBC2 and IBC. For Canali we used 5FCV approach as well. The result are shown in section~\ref{sec:results-canali}.
 
 
 
